@@ -17,7 +17,7 @@ import { useNavigate, useNavigation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Avatar, CircularProgress } from "@mui/material";
 import { avatarImage2 } from "../../assets";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import ImageUpload from "../../Components/ImageUpload/ImageUpload";
 import useInput from "./../../Hooks/useInput";
 import { auth, db, storage } from "../../firebase/firebase.Config";
@@ -101,16 +101,9 @@ const SignUp = () => {
       Password
     );
     const user = userCredential.user;
-    const userObj = {
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: Image.preview,
-      uid: user.uid,
-    };
-    console.log(user);
-    dispatch(userActions.SignInGoogle(userObj));
-    dispatch(userActions.setToken(user.accessToken));
-    localStorage.setItem("token", user.accessToken);
+
+    console.log(user + "ddd");
+
     const imagename = `${user.uid}+${Image.raw.name}`;
     const storageRef = ref(storage, imagename);
     const uploadTask = uploadBytesResumable(storageRef, Image.raw);
@@ -143,11 +136,41 @@ const SignUp = () => {
         // //   setdownloadURL(downloadURL);
 
         // });
-        await setDoc(doc(db, "users", userObj.uid), {
-          ...userObj,
+        // const userObj = {
+        //   displayName: fullName,
+        //   email: user.email,
+        //   photoURL: Image.preview,
+        //   uid: user.uid,
+        // };
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          uid: user.uid,
           displayName: fullName,
           photoURL: downloadURL,
-        }).then(() => {});
+        }).then(async () => {
+          // ...
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            const photoURL = docSnap.data().photoURL;
+            const displayName = docSnap.data().displayName;
+            const userObj = {
+              displayName,
+              email: user.email,
+              photoURL,
+              uid: user.uid,
+            };
+            console.log(user);
+            dispatch(userActions.SignInGoogle(userObj));
+            dispatch(userActions.setToken(user.accessToken));
+            localStorage.setItem("token", user.accessToken);
+          } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        });
       }
     );
     /* image upload */
