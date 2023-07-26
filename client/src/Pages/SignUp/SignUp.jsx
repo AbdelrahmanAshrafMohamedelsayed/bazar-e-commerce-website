@@ -45,12 +45,13 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const [downloadURL, setdownloadURL] = useState("");
   console.log(downloadURL);
-  const validateName = (value) => {
-    if (value.trim() === "") {
-      setnameError("Name is required");
-      return false;
-    }
-  };
+  // const validateName = (value) => {
+  //   if (value.trim() === "") {
+  //     setnameError("Name is required");
+  //     return false;
+  //   }
+  // };
+
   const {
     value: fullName,
     inputValid: fullNameValid,
@@ -59,6 +60,20 @@ const SignUp = () => {
     onBlurHandler: fullNameBlurHandler,
     reset: resetfullName,
   } = useInput((value) => value.trim() !== "" && NameRegex.test(value));
+  useEffect(() => {
+    // Validation function
+    const validateName = (value) => {
+      if (value.trim() === "") {
+        setnameError("Name is required");
+      } else if (!NameRegex.test(value)) {
+        setnameError("Invalid Name (only letters)");
+      } else {
+        setnameError("");
+      }
+    };
+    console.log(nameError + "ddd");
+    validateName(fullName);
+  }, [fullName]);
 
   const {
     value: Email,
@@ -68,7 +83,6 @@ const SignUp = () => {
     onBlurHandler: onBlurHandlerEmail,
     reset: resetEmail,
   } = useInput((value) => value.trim() !== "" && EmailRegex.test(value));
-
   const {
     value: Password,
     inputValid: PasswordValid,
@@ -221,7 +235,7 @@ const SignUp = () => {
                 />
                 {fullNameTouched && !fullNameValid && (
                   <StyledAlert severity="error">
-                    Invalid Name (only letters)
+                    {nameError || "Invalid Name (only letters)"}
                   </StyledAlert>
                 )}
               </Input>
