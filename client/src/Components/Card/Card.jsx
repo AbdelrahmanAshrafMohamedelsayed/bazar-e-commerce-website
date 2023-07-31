@@ -5,6 +5,8 @@ import { test } from "../../assets";
 import { useDispatch } from "react-redux";
 import { CartActions } from "../../Store/cart";
 import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
+import Aos from "aos";
 
 const Card = ({ product, productsNum }) => {
   const dispatch = useDispatch();
@@ -23,35 +25,40 @@ const Card = ({ product, productsNum }) => {
     );
     toast.success(`${product.title} added to cart`);
   };
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
   return (
-    <Grid item xs={12} md={4} sm={6} lg={3}>
-      <Card1
-        sx={{ boxShadow: 2 }}
-        to={`product/${product._id}`}
-        state={product}
-      >
-        <Image>
-          <img src={product.image} alt="img" />
-        </Image>
-        <Caption>
-          <Text>
-            <h4>{product.title.substring(0, 15)}</h4>
-            <p>{product.category}</p>
-          </Text>
-          <div className="pricesText">
-            <p className="add" onClick={AddItemHandler}>
-              add to cart
-              <span>
-                <ArrowRightAltOutlined />
-              </span>
-            </p>
-            <div className="prices">
-              <span className="sale">${+product.oldPrice}</span>
-              <span className="price">${+product.price}</span>
+    <>
+      <Grid item xs={12} md={4} sm={6} lg={3} data-aos="fade-up">
+        <Card1
+          sx={{ boxShadow: 2 }}
+          to={`product/${product._id}`}
+          state={product}
+        >
+          <Image>
+            <img src={product.image} alt="img" />
+          </Image>
+          <Caption>
+            <Text>
+              <h4>{product.title.substring(0, 15)}</h4>
+              <p>{product.category}</p>
+            </Text>
+            <div className="pricesText">
+              <p className="add" onClick={AddItemHandler}>
+                add to cart
+                <span>
+                  <ArrowRightAltOutlined />
+                </span>
+              </p>
+              <div className="prices">
+                <span className="sale">${+product.oldPrice}</span>
+                <span className="price">${+product.price}</span>
+              </div>
             </div>
-          </div>
-        </Caption>
-      </Card1>
+          </Caption>
+        </Card1>
+      </Grid>
       <ToastContainer
         position="top-left"
         autoClose={2000}
@@ -64,7 +71,7 @@ const Card = ({ product, productsNum }) => {
         pauseOnHover
         theme="dark"
       />
-    </Grid>
+    </>
   );
 };
 

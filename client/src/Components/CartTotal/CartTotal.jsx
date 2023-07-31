@@ -7,11 +7,12 @@ import {
   Wrapper,
   Wrapper2,
 } from "./CartTotal.styled";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Box } from "@mui/material";
+import Aos from "aos";
 
 const CartTotal = () => {
   const userInfo = useSelector((state) => state.cart.user);
@@ -36,8 +37,11 @@ const CartTotal = () => {
     refCheckout.current.children[0].click();
     setpay(true);
   };
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
   return (
-    <Wrapper>
+    <Wrapper data-aos="fade-top">
       <Wrapper2>
         <h2>cart totals</h2>
         <TotalPrice>

@@ -11,24 +11,21 @@ const Github = ({ state }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const GithubHandler = async () => {
-    if (state === "signup") {
-      try {
-        const user = await signInWithPopup(auth, provider);
-        const userObj = {
-          displayName: user.user.displayName,
-          email: user.user.email,
-          photoURL: user.user.photoURL,
-          uid: user.user.uid,
-        };
-        console.log(user);
-        dispatch(userActions.SignInGoogle(userObj));
-        dispatch(userActions.setToken(user.user.accessToken));
-        localStorage.setItem("token", user.user.accessToken);
-        navigate("/");
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
+    try {
+      const user = await signInWithPopup(auth, provider);
+      const userObj = {
+        displayName: user.user.displayName,
+        email: user.user.email,
+        photoURL: user.user.photoURL,
+        uid: user.user.uid,
+      };
+      console.log(user);
+      dispatch(userActions.SignInGoogle(userObj));
+      dispatch(userActions.setToken(user.user.accessToken));
+      localStorage.setItem("token", user.user.accessToken);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
   };
   let isSignUp = state === "signup" ? "Sign up" : "Sign in";

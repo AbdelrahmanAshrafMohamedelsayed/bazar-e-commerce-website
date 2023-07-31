@@ -12,6 +12,8 @@ import {
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { CartActions } from "../../Store/cart";
 import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
+import Aos from "aos";
 const CartItem = ({ item }) => {
   console.log(item.title);
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ const CartItem = ({ item }) => {
     dispatch(CartActions.RemoveItem(item.id));
     toast.error(`${item.title} is removed`);
   };
+
   return (
     <Wrapper>
       <First>

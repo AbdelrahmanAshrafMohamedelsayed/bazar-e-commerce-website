@@ -26,6 +26,7 @@ import { signOut } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store/user";
 import { auth } from "../../firebase/firebase.Config";
+import { toast } from "react-toastify";
 const NavBar = () => {
   const submit = useSubmit();
   const logoutHandler = async (e) => {
@@ -35,7 +36,7 @@ const NavBar = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        // toast.success("Log Out Successfully!");
+        toast.success("Log Out Successfully!");
         dispatch(userActions.Removedata());
         submit(null, { action: "/logout", method: "post" });
         console.log("logout");

@@ -3,10 +3,11 @@ import Description from "../../Components/Description/Description";
 import { MMContainer, Wrapper } from "./Shopping.styled";
 import Card from "../../Components/Card/Card";
 import Pagination from "../../Components/Pagination/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavShop from "../../Components/NavShop/NavShop";
 // import { Card1 } from "../../Components/Card/Card.styled";
-
+import "aos/dist/aos.css";
+import Aos from "aos";
 const Shopping = ({ products }) => {
   const CountChangeHandler = (value) => {
     setproductsNum(value);
@@ -20,6 +21,9 @@ const Shopping = ({ products }) => {
     setStart(value.start);
     setEnd(value.end);
   };
+  // useEffect(() => {
+  //   Aos.init({ duration: 2000 });
+  // }, []);
   return (
     <Wrapper>
       <Description />

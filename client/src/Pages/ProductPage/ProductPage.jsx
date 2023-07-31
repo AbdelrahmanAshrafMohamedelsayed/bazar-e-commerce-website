@@ -20,7 +20,7 @@ const ProductPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [product, setproduct] = useState(null);
-  const [Num, setNum] = useState(0);
+  const [Num, setNum] = useState(1);
   const IncreaseHandler = () => {
     setNum((prev) => prev + 1);
   };

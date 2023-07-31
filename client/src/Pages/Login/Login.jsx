@@ -19,6 +19,7 @@ import {
 } from "./Login.styled";
 import { Alert } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
+import { StyledCircularProgress } from "../SignUp/SignUp.styled";
 const Login = () => {
   const [Submit, setSubmit] = useState(false);
   const [submitError, setsubmitError] = useState(null);
@@ -179,14 +180,27 @@ const Login = () => {
                   </StyledAlert>
                 )}
               </Input>
-              <button type="submit">Login</button>
+              {/* <button type="submit">Login</button> */}
+              <button type="submit" disabled={Submit}>
+                {Submit ? (
+                  <StyledCircularProgress
+                    sx={{
+                      width: "30px",
+                      height: "30px",
+                    }}
+                  />
+                ) : (
+                  "Login"
+                )}
+                {/* <StyledCircularProgress /> */}
+              </button>
               {/* {submitError && (
                 <StyledAlert severity="error">
                  
                 </StyledAlert>
               )} */}
-              <Google state={"signup"} />
-              <Github state={"signup"} />
+              <Google state={"Login"} />
+              <Github state={"Login"} />
             </form>
           </Formm>
         </SecondCont>

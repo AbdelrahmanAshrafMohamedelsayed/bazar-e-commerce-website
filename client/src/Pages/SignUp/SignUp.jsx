@@ -26,6 +26,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const SignUp = () => {
   const [Submit, setSubmit] = useState(false);
+  const [submitError, setsubmitError] = useState(null);
   /* token Handle */
   const token = useSelector((state) => state.cart.user).token;
   const Navigate = useNavigate();
@@ -37,7 +38,7 @@ const SignUp = () => {
   }, [token, Navigate]);
   /* token Handle */
 
-  const NameRegex = /^[a-zA-Z]+$/;
+  const NameRegex = /^[a-zA-Z\s]+$/;
   const EmailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
   const [nameError, setnameError] = useState("");
   const PasswordRegex = /^[a-zA-Z0-9]{6,}$/;
@@ -109,93 +110,115 @@ const SignUp = () => {
       return;
     }
     setSubmit(true);
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      Email,
-      Password
-    );
-    const user = userCredential.user;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        Email,
+        Password
+      );
+      const user = userCredential.user;
 
-    console.log(user + "ddd");
+      console.log(user + "ddd");
 
-    const imagename = `${user.uid}+${Image.raw.name}`;
-    const storageRef = ref(storage, imagename);
-    const uploadTask = uploadBytesResumable(storageRef, Image.raw);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
-        }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-        console.log(error);
-        return;
-      },
-      async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        // .then((downloadURL) => {
-        //   console.log("File available at", downloadURL);
-        // //   setdownloadURL(downloadURL);
-
-        // });
-        // const userObj = {
-        //   displayName: fullName,
-        //   email: user.email,
-        //   photoURL: Image.preview,
-        //   uid: user.uid,
-        // };
-        await setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-          uid: user.uid,
-          displayName: fullName,
-          photoURL: downloadURL,
-        }).then(async () => {
-          // ...
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            const photoURL = docSnap.data().photoURL;
-            const displayName = docSnap.data().displayName;
-            const userObj = {
-              displayName,
-              email: user.email,
-              photoURL,
-              uid: user.uid,
-            };
-            console.log(user);
-            dispatch(userActions.SignInGoogle(userObj));
-            dispatch(userActions.setToken(user.accessToken));
-            localStorage.setItem("token", user.accessToken);
-          } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such document!");
+      const imagename = `${user.uid}+${Image.raw.name}`;
+      const storageRef = ref(storage, imagename);
+      const uploadTask = uploadBytesResumable(storageRef, Image.raw);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
           }
-        });
-      }
-    );
-    /* image upload */
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          console.log(error);
+          setSubmit(false);
 
-    resetEmail();
-    resetPassword();
-    resetfullName();
-    setImage(null);
-    setSubmit(false);
-    toast.success(`Welcome ${fullName}`);
-    Navigate("/");
+          return;
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+          await setDoc(doc(db, "users", user.uid), {
+            email: user.email,
+            uid: user.uid,
+            displayName: fullName,
+            photoURL: downloadURL,
+          }).then(async () => {
+            // ...
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+              console.log("Document data:", docSnap.data());
+              const photoURL = docSnap.data().photoURL;
+              const displayName = docSnap.data().displayName;
+              const userObj = {
+                displayName,
+                email: user.email,
+                photoURL,
+                uid: user.uid,
+              };
+              console.log(user);
+              dispatch(userActions.SignInGoogle(userObj));
+              dispatch(userActions.setToken(user.accessToken));
+              localStorage.setItem("token", user.accessToken);
+              setsubmitError(null);
+            } else {
+              // docSnap.data() will be undefined in this case
+              console.log("No such document!");
+            }
+          });
+        }
+      );
+      setSubmit(false);
+      toast.success(`Welcome ${fullName}`);
+      Navigate("/");
+      /* image upload */
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const startIndex = errorCode.indexOf("/") + 1;
+      if (startIndex !== -1) {
+        const resultString = errorCode.substring(startIndex);
+        console.log(resultString);
+        setsubmitError(resultString);
+        const err =
+          resultString === "user-not-found"
+            ? "User Not Found"
+            : resultString === "wrong-password"
+            ? "Wrong Password"
+            : resultString === "The email address is badly formatted."
+            ? "Invalid Email"
+            : "email already signed up";
+        toast.error(err);
+        setSubmit(false);
+      }
+      return;
+    }
+    if (submitError) {
+      console.log("submit", submitError);
+      return;
+    } else {
+      resetEmail();
+      resetPassword();
+      resetfullName();
+      setImage(null);
+      setSubmit(false);
+      // toast.success(`Welcome ${fullName}`);
+      Navigate("/");
+    }
   };
   /* inputs validation */
   /* image upload */
@@ -268,7 +291,17 @@ const SignUp = () => {
                 )}
               </Input>
               <button type="submit" disabled={Submit}>
-                {Submit ? <StyledCircularProgress /> : "Sign Up"}
+                {Submit ? (
+                  <StyledCircularProgress
+                    sx={{
+                      width: "30px !important",
+                      height: "30px !important",
+                    }}
+                  />
+                ) : (
+                  "Sign Up"
+                )}
+                {/* <StyledCircularProgress /> */}
               </button>
               <Google state={"signup"} />
               <Github state={"signup"} />

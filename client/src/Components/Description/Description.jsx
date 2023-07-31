@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { DescContainer, Header, Txt } from "./Description.styled";
+import Aos from "aos";
 
 const Description = () => {
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
   return (
-    <DescContainer>
+    <DescContainer data-aos="fade-right">
       <Header>shopping everyday</Header>
       <Txt>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo,

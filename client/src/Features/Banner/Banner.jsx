@@ -6,6 +6,7 @@ import ChevronRightTwoToneIcon from "@mui/icons-material/ChevronRightTwoTone";
 import { useState } from "react";
 import Typewriter from "typewriter-effect";
 import { useSelector } from "react-redux";
+import { first, fourth, second, thrid } from "../../assets";
 
 const Banner = () => {
   const user = useSelector((state) => state.cart.user).user;
@@ -17,12 +18,7 @@ const Banner = () => {
     setCurrentSlide(currentSlide === 3 ? 0 : (prev) => prev + 1);
   };
 
-  const data = [
-    "https://amazonproone.vercel.app/static/media/img2.bc1bdb910ead16c65197.jpg",
-    "https://amazonproone.vercel.app/static/media/img5.aa945e25375bfdee385f.jpg",
-    "https://amazonproone.vercel.app/static/media/img3.c80809bb40bee5c34372.jpg",
-    "https://amazonproone.vercel.app/static/media/img1.efb3d39101f7ef77d616.jpg",
-  ];
+  const data = [first, second, thrid, fourth];
 
   return (
     <BannerStyle>
