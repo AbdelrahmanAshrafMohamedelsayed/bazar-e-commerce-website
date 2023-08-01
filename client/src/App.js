@@ -22,7 +22,12 @@ function App() {
       loader: tokenLoader,
       id: "root",
       children: [
-        { index: true, element: <HomePage />, loader: loaderProducts },
+        {
+          index: true,
+          element: <HomePage />,
+          loader: loaderProducts,
+          id: "home",
+        },
         { path: "product/:id", element: <ProductPage /> },
         { path: "cart", element: <CartPage /> },
         { path: "auth/login", element: <Login /> },

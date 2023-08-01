@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { CartActions } from "../../Store/cart";
 import { ToastContainer, toast } from "react-toastify";
 import { MMContainer } from "../../Features/Shopping/Shopping.styled";
+import Search from "../../Features/Search/Search";
 
 const ProductPage = () => {
   const location = useLocation();
@@ -49,58 +50,60 @@ const ProductPage = () => {
     setproduct(location.state);
   }, [location]);
   return (
-    <MMContainer>
-      <Wrapper>
-        <Image>
-          <img src={product && product.image} alt="img" />
-        </Image>
-        <Content>
-          <h1>{product && product.title}</h1>
-          <div className="prices">
-            <span className="sale">${product && product.oldPrice}</span>
-            <span className="price">${product && product.price}</span>
-          </div>
-          <Ratingc>
-            <Rating
-              name="disabled"
-              value={product && product.rating}
-              disabled
-            />
-            <span>({product && product._id} Customer review)</span>
-          </Ratingc>
-          <Desc>{product && product.description}</Desc>
-          <Add>
-            <Quantity>
-              <p>Quantity</p>
-              <div className="cont">
-                <button className="icon" onClick={DecreaseHandler}>
-                  -
-                </button>
-                <span className="num">{Num}</span>
-                <button className="icon" onClick={IncreaseHandler}>
-                  +
-                </button>
-              </div>
-            </Quantity>
-            <button className="add" onClick={AddItemHandler}>
-              Add to cart
-            </button>
-          </Add>
-        </Content>
-      </Wrapper>
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-    </MMContainer>
+    <>
+      <MMContainer>
+        <Wrapper>
+          <Image>
+            <img src={product && product.image} alt="img" />
+          </Image>
+          <Content>
+            <h1>{product && product.title}</h1>
+            <div className="prices">
+              <span className="sale">${product && product.oldPrice}</span>
+              <span className="price">${product && product.price}</span>
+            </div>
+            <Ratingc>
+              <Rating
+                name="disabled"
+                value={product && product.rating}
+                disabled
+              />
+              <span>({product && product._id} Customer review)</span>
+            </Ratingc>
+            <Desc>{product && product.description}</Desc>
+            <Add>
+              <Quantity>
+                <p>Quantity</p>
+                <div className="cont">
+                  <button className="icon" onClick={DecreaseHandler}>
+                    -
+                  </button>
+                  <span className="num">{Num}</span>
+                  <button className="icon" onClick={IncreaseHandler}>
+                    +
+                  </button>
+                </div>
+              </Quantity>
+              <button className="add" onClick={AddItemHandler}>
+                Add to cart
+              </button>
+            </Add>
+          </Content>
+        </Wrapper>
+        <ToastContainer
+          position="top-left"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      </MMContainer>
+    </>
   );
 };
 

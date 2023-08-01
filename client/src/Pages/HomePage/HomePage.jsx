@@ -1,13 +1,17 @@
-import { json, useLoaderData } from "react-router-dom";
+import { json, useLoaderData, useRouteLoaderData } from "react-router-dom";
 import axios from "axios";
 import Banner from "./../../Features/Banner/Banner";
 import Shopping from "./../../Features/Shopping/Shopping";
+import Search from "../../Features/Search/Search";
 
 const HomePage = () => {
-  const products = useLoaderData().data;
+  // const products = useLoaderData().data;
+  const products = useRouteLoaderData("home").data;
+
   console.log(products);
   return (
     <>
+      <Search />
       <Banner />
       <Shopping products={products} />
     </>
