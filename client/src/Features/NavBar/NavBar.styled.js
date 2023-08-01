@@ -103,7 +103,7 @@ export const LinksSecond = styled("ul")`
       text-decoration: none;
     }
     li:has(.active) {
-      background-color: #f50057;
+      background-color: #2e7d32;
     }
     li:hover a,
     li:hover button,

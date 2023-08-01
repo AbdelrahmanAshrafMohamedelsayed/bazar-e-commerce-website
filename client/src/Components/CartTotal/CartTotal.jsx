@@ -37,11 +37,9 @@ const CartTotal = () => {
     refCheckout.current.children[0].click();
     setpay(true);
   };
-  useEffect(() => {
-    Aos.init({ duration: 2000 });
-  }, []);
+
   return (
-    <Wrapper data-aos="fade-top">
+    <Wrapper>
       <Wrapper2>
         <h2>cart totals</h2>
         <TotalPrice>
