@@ -29,6 +29,18 @@ export const BannerStyle = styled("div")`
   height: calc(100vh - 5rem - 1px);
   background-color: #f2f2f2;
   overflow: hidden;
+  @media (max-width: 750px) {
+    height: 70vh;
+  }
+  @media (max-width: 750px) {
+    height: 70vh;
+  }
+  @media (max-width: 650px) {
+    height: 60vh;
+  }
+  @media (max-width: 500px) {
+    height: 55vh;
+  }
 `;
 export const Images = styled("div")`
   transition: 0.5s;
@@ -60,10 +72,13 @@ export const Images = styled("div")`
 export const Icons = styled("div")`
   position: absolute;
   left: 50%;
-  bottom: 10rem;
+  bottom: 10vh;
   transform: translateX(-50%);
   display: flex;
   gap: 1rem;
+  @media (max-width: 755px) {
+    bottom: 3rem;
+  }
 `;
 export const Icon = styled("span")`
   padding: 0.5rem;

@@ -58,7 +58,7 @@ export const SearchItems = styled("div")`
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000;
+  z-index: 999;
   background-color: #fff;
   box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   border-radius: 0.5rem;
