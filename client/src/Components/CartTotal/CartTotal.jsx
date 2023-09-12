@@ -17,14 +17,13 @@ import Aos from "aos";
 const CartTotal = () => {
   const userInfo = useSelector((state) => state.cart.user);
   const refCheckout = useRef();
-  console.log();
   const Amount = +useSelector((state) => state.cart.cart.totalAmount).toFixed(
-    3
+    2
   );
   const [pay, setpay] = useState(false);
   const payment = async (token) => {
     await axios.post("http://localhost:8000/pay", {
-      amount: Amount * 100,
+      amount: Amount.toFixed(2) * 100,
       token: token,
     });
   };

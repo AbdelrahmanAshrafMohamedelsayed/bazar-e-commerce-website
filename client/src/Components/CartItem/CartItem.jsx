@@ -58,7 +58,7 @@ const CartItem = ({ item }) => {
         <SecondCont>
           <p className="title">{item.title}</p>
           <AddCont>
-            <p className="price">${item.NewPrice}</p>
+            <p className="price">${item.NewPrice.toFixed(0)}</p>
             <Quantity>
               <p>Quantity</p>
               <div className="cont">
@@ -71,7 +71,7 @@ const CartItem = ({ item }) => {
                 </button>
               </div>
             </Quantity>
-            <p className="price">${item.TotalAmount}</p>
+            <p className="price">${item.TotalAmount.toFixed(0)}</p>
           </AddCont>
         </SecondCont>
       </First>

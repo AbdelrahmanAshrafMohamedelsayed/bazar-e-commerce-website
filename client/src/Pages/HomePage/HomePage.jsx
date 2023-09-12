@@ -6,7 +6,8 @@ import Search from "../../Features/Search/Search";
 
 const HomePage = () => {
   // const products = useLoaderData().data;
-  const products = useRouteLoaderData("home").data;
+  console.log(useRouteLoaderData("home"));
+  const products = useRouteLoaderData("home")?.data;
 
   console.log(products);
   return (

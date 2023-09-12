@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialuserState = {
   user: {},
   token: null,
+  // expire: null,
 };
 const userslice = createSlice({
   name: "user",
@@ -38,6 +39,10 @@ const userslice = createSlice({
       const token = action.payload;
       state.token = token;
     },
+    // setExpire(state, action) {
+    //   const expire = action.payload;
+    //   state.expire = expire;
+    // },
     Removedata(state) {
       state.user = {};
       state.token = null;

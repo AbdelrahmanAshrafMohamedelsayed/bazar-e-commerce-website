@@ -17,7 +17,6 @@ import {
   StyledAlert,
   UploadImage,
 } from "./Login.styled";
-import { Alert } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import { StyledCircularProgress } from "../SignUp/SignUp.styled";
 const Login = () => {
@@ -90,6 +89,13 @@ const Login = () => {
         dispatch(userActions.SignInGoogle(userObj));
         dispatch(userActions.setToken(user.accessToken));
         localStorage.setItem("token", user.accessToken);
+        //
+        const expiration = new Date();
+        expiration.setHours(expiration.getHours() + 1);
+        localStorage.setItem("expiration", expiration.toISOString());
+        console.log(expiration.toISOString(), "from signup");
+        // dispatch(userActions.setExpire(user.expiration.toISOString()));
+        //
         setsubmitError(null);
       } else {
         // docSnap.data() will be undefined in this case

@@ -64,13 +64,15 @@ export const SearchItems = styled("div")`
   border-radius: 0.5rem;
   overflow-y: scroll;
 
-  cursor: pointer;
   max-height: 24rem;
 `;
 export const SearchItem = styled(Link)`
   text-decoration: none;
-
+  cursor: pointer;
   background-color: rgb(243 244 246/1);
+  :hover {
+    background-color: rgb(243 244 246/0.5);
+  }
   gap: 0.75rem;
   min-height: 7rem;
   display: flex;

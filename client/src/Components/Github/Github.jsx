@@ -23,6 +23,13 @@ const Github = ({ state }) => {
       dispatch(userActions.SignInGoogle(userObj));
       dispatch(userActions.setToken(user.user.accessToken));
       localStorage.setItem("token", user.user.accessToken);
+      //
+      const expiration = new Date();
+      expiration.setHours(expiration.getHours() + 1);
+      localStorage.setItem("expiration", expiration.toISOString());
+      console.log(expiration.toISOString(), "from signup");
+      // dispatch(userActions.setExpire(user.expiration.toISOString()));
+      //
       navigate("/");
     } catch (err) {
       console.log(err);

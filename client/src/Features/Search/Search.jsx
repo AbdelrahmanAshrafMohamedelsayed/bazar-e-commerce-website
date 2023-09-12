@@ -3,7 +3,7 @@ import { Cont1, ContSearch, SearchItems, SearchItem } from "./Search.styled";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 const Search = () => {
-  const items = useRouteLoaderData("home").data;
+  const items = useRouteLoaderData("home")?.data;
   console.log(items);
 
   const [searchQuery, setSearchQuery] = useState("");

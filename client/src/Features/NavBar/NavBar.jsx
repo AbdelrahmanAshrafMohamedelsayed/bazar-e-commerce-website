@@ -53,13 +53,13 @@ const NavBar = () => {
   const Quantity = useSelector((state) => state.cart.cart.items.length);
   const user = useSelector((state) => state.cart.user).user;
   const token = useSelector((state) => state.cart.user).token;
-  console.log(user);
+  console.log(user.photoURL);
   return (
     <FirstCont sx={{ boxShadow: 1 }}>
       <MMContainer>
         <Header>
           <Logo to="/">
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" crossOrigin="anonymous" />
           </Logo>
           <LinksFirst>
             {/* <NavLink
@@ -174,9 +174,7 @@ const NavBar = () => {
                 />
               </Badge>
             </span>
-            {token && user && user.photoURL && (
-              <Avatar alt="Remy Sharp" src={user.photoURL} />
-            )}
+            {token && user && <Avatar alt="Remy Sharp" src={user?.photoURL} />}
           </LinksFirst>
         </Header>
       </MMContainer>
