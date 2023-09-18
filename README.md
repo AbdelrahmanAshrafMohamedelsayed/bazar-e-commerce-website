@@ -46,7 +46,9 @@ A full responsive e-commerce website that allows users to Sign Up, Login, browse
 - **StripeJS**
 - **react-toastify**
 
-## 📸 Demo video <a name = "video"></a>
+## 📸 Demo video 
+[![Watch the video](https://drive.google.com/file/d/1W-vjP8ZZIFZqukareviRP800o9DEOsXA/view?usp=sharing)](https://lnkd.in/d7dswj4E)
+
 
 <div align="center">
 <img src="/screenshots/ShopME.gif">
